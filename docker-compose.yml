@@ -1,0 +1,68 @@
+version: '3.5'
+
+services:
+  # app:
+  #   build:
+  #     context: .
+  #     # dockerfile: app/Dockerfile
+  #   container_name: profile-container
+  #   # command: python app/app.py
+  #   ports:
+  #     - "8080:8080"
+  #   restart: unless-stopped
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - .:/app
+  #   depends_on:
+  #     - mongodb
+
+  db:
+    container_name: pg_testing
+    image: postgres:10-alpine
+    restart: always
+    volumes:
+      - ./postges-data/pgdata/pgdata
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: pg_isready -U mydbuser -d mydbname
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # migrate:
+  #   image: migrate/migrate
+  #   networks:
+  #     - new
+  #   volumes:
+  #     - ./pkg/postgres/migrations:/migrations
+  #   command:
+  #     [
+  #       "-path",
+  #       "/migrations",
+  #       "-database",
+  #       "postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable",
+  #       "up",
+  #       "3"
+  #     ]
+  #   links:
+  #     - db
+  #   depends_on:
+  #     - db
+
+  pgadmin:
+    container_name: pg_admin_testing
+    image: dpage/pgadmin4:5.7
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5055:80"
+    depends_on:
+      - db
