@@ -1,6 +1,9 @@
 package service
 
-import "lo_project/internal/domain/model"
+import (
+	"lo_project/internal/domain/model"
+	"log"
+)
 
 type CacheRepository interface {
 	SetOrder(order model.Order) error
@@ -8,7 +11,7 @@ type CacheRepository interface {
 }
 
 type PgRepository interface {
-	CreateOrder() (err error)
+	CreateOrder(order model.Order) (err error)
 	GetOrder(id string) (model.Order, error)
 }
 
@@ -24,11 +27,25 @@ func (os orderService) GetOrder(id string) (model.Order, error) {
 		if err != nil {
 			return model.Order{}, err
 		}
+		e := os.cache.SetOrder(ordDb)
+		if e != nil {
+			log.Fatal("Не получилось записать order в кэш")
+		}
 		return ordDb, nil
 	}
 	return ordCach, nil
 }
 
-func (os orderService) SetOrder(order model.Order) {
-	os.db.CreateOrder(order)
+func (os orderService) SetOrder(order model.Order) error {
+	err := os.db.CreateOrder(order)
+	if err != nil {
+		log.Fatal("Ошибка записи Order в базу")
+		return err
+	}
+	e := os.cache.SetOrder(order)
+	if e != nil {
+		log.Fatal("Не получилось записать order в кэш")
+		return e
+	}
+	return nil
 }
