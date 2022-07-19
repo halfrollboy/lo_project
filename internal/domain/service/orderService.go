@@ -20,6 +20,10 @@ type orderService struct {
 	db    PgRepository
 }
 
+func NewOrderService(cache CacheRepository, db PgRepository) *orderService {
+	return &orderService{cache: cache, db: db}
+}
+
 func (os orderService) GetOrder(id string) (model.Order, error) {
 	ordCach, found := os.cache.GetOrder(id)
 	if !found {

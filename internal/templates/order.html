@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>live</title>
+    <style>
+      body{
+        background-color: bisque;
+      }
+      .animated-button {
+        text-decoration: none;
+        display: inline-block;
+        margin: 10px 20px;
+        padding: 15px 30px;
+        overflow: hidden;
+        border: 2px solid;
+        border-bottom-width: 4px;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: rgba(30, 255, 188, 1);
+        background: rgba(255, 255, 255, 1);
+        transition: color .3s, background .5s;
+      }
+      .animated-button:hover {
+        animation: stripes .75s infinite linear;
+        background: linear-gradient(45deg, rgba(30, 255, 188, 1) 25%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 50%, rgba(30, 255, 188, 1) 50%, rgba(30, 255, 188, 1) 75%, rgba(255, 255, 255, 1) 75%, rgba(255, 255, 255, 1));
+        background-size: 10px 10px;
+        color: #FF50E5;
+      }
+      @keyframes stripes {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 50px 0;
+        }
+      }
+      .btn{
+        display: flex;
+        display: inline;
+        justify-content: space-between;
+      }
+      div.main-form {
+        height: 10em;
+        position: relative }
+      div.main-form {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%) }
+      .code{
+        background-color: black;
+        color: white;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 15px;
+        height: 300px;
+        width: 300px;
+      }
+      
+    </style>
+</head>
+<body>
+  <div class="main-form">
+    <form action="/order" method="post" name="loginForm">
+      <div style="left: 50%;">
+        <h2>b563feb7b2b84b6test</h2>
+        <input id="input" type="text" placeholder="Your uuid" name="uuid">
+      </div>
+      <div class="btn">
+        <button href="" id="get" class="animated-button">GET DATA</button>
+        <!-- <div href="" id="post" class="animated-button">Crete</div> -->
+      </div>
+    </form>
+    <div class="code">
+      code here
+    </div>
+  </div>
+  <!-- <script>
+    var postElem = document.getElementById("post");
+    var getElem = document.getElementById("get");
+    var url = "127.0.0.1:8080/foo";
+    const data = { username: 'example' };
+
+    postElem.onclick = async function(){
+      alert("POST")  
+       
+      const response = fetch(url, {
+        method: 'POST', // или 'PUT'
+        //body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const json = response.json();
+      console.log('Успех:', JSON.stringify(json));
+    }
+
+
+    getElem.onclick = function(){
+      alert("GET");
+    };
+    
+     
+  </script> -->
+</body>
+</html>

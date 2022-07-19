@@ -18,6 +18,10 @@ type brokerStruct struct {
 	broker Brocker
 }
 
+func NewBrockerStruct(broker Brocker) *brokerStruct {
+	return &brokerStruct{broker: broker}
+}
+
 // Честно не знал как лучше архитектурно сделать с брокером поэтому убрал в сервис
 func (b brokerStruct) Listen() (data model.Order) {
 	b.broker.QueueSubscribe("foo", "queue.foo", func(msg *nats.Msg) {

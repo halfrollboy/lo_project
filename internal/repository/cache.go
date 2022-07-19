@@ -17,6 +17,10 @@ type cacheRepository struct {
 	cache CaheInterface
 }
 
+func NewCacheReposytory(cache CaheInterface) *cacheRepository {
+	return &cacheRepository{cache: cache}
+}
+
 //Вставляем по id в кэш стркутуру заказа
 func (c cacheRepository) SetOrder(order model.Order) error {
 	c.cache.Set(order.OrderUID, order, cache.DefaultExpiration)
